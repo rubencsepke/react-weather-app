@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import '../sass/style.scss'
 
+import { getCurrentData } from '../api/fetchCurrentData.js';
+
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,7 @@ export default class Main extends Component {
   }
 
   handleSearch = (e) => {
-    e.key === 'Enter' && console.log(this.state.query)
+    e.key === 'Enter' && getCurrentData(this.state.query);
   }
 
   handleChange = (e) => {
