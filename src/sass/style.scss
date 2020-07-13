@@ -5,6 +5,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
+  background: #ececec;
 }
 
 .container {
@@ -20,10 +21,16 @@ body {
   #search {
     margin-left: auto;
     border: 0;
-    background: #ececec;
+    background: #fff;
     border-radius: 8px;
     width: 300px;
     padding: 16px;
     font-size: 16px;
   }
+}
+
+.current-weather {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 12px;
 }
