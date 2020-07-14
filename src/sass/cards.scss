@@ -1,7 +1,7 @@
 .card {
   background: #fff;
   border-radius: 20px;
-  padding: 20px;
+  padding: 24px;
   text-align: center;
 }
 
@@ -11,6 +11,15 @@
   grid-gap: 12px;
   .current-weather-card {
     justify-items: center;
+    .city-name {
+      font-size: 20px;
+    }
+    .weather {
+      font-size: 20px;
+    }
+    .temp {
+      font-size: 20px;
+    }
   }
   .current-info-card {
     .info-row {
@@ -38,6 +47,15 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 12px;
+  .weather {
+    margin-bottom: 12px;
+  }
   .temp {
+    display: flex;
+    width: 100px;
+    margin: 0 auto;
+    .temp-eve {
+      margin-left: auto;
+    }
   }
 }

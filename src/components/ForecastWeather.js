@@ -15,7 +15,7 @@ const ForecastWeather = (props) => {
           <div className="day-name">{day(data.dt)}</div>
           <div className="weather-icon"><img src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} alt={data.weather[0].main}/></div>
           <div className="weather">{data.weather[0].main}</div>
-          <div className="temp">{data.temp.day} &deg;C {data.temp.eve} &deg;C</div>
+          <div className="temp"><span className="temp-day">{Math.round(data.temp.day)}&deg;C</span> <span className="temp-eve">{Math.round(data.temp.eve)}&deg;C</span></div>
         </div>
       )}
     </div>
