@@ -14,6 +14,7 @@ export default class Main extends Component {
       currentWeatherIsLoading: false,
       forecastWeatherIsLoading: false,
       query: '',
+      error: '',
       currentWeather: [],
       forecastWeather: []
     }
@@ -22,28 +23,36 @@ export default class Main extends Component {
   }
 
   handleSearch = (e) => {
-    if(e.key === 'Enter') {
-      this.setState({currentWeatherIsLoading: true});
+    if(e.key === 'Enter' && e.target.value !== '') {
+      this.setState({error: '', currentWeather: [], forecastWeather: [], currentWeatherIsLoading: true});
       getCurrentData(this.state.query).then(data => {
-        const currentWeather = {
-          city: data.name,
-          lat: data.coord.lat,
-          long: data.coord.lon,
-          temp: data.main.temp,
-          humidity: data.main.humidity,
-          pressure: data.main.pressure,
-          windSpeed: data.wind.speed,
-          windDeg: data.wind.deg,
-          weather: data.weather[0].main,
-          icon: data.weather[0].icon
-        }
-        this.setState({currentWeather: currentWeather, currentWeatherIsLoading: false});
-        getForecastData(currentWeather.lat,currentWeather.long).then(data => {
-          const forecastWeather = {
-            list: data.daily
+        if(data.cod === "404") {
+          const error = {
+            message: 'City not found: '+this.state.query
           }
-          this.setState({forecastWeather: forecastWeather, forecastWeatherIsLoading: false});
-        })
+          this.setState({error: error, currentWeatherIsLoading: false});
+        }
+        if(data.cod === 200) {
+          const currentWeather = {
+            city: data.name,
+            lat: data.coord.lat,
+            long: data.coord.lon,
+            temp: data.main.temp,
+            humidity: data.main.humidity,
+            pressure: data.main.pressure,
+            windSpeed: data.wind.speed,
+            windDeg: data.wind.deg,
+            weather: data.weather[0].main,
+            icon: data.weather[0].icon
+          }
+          this.setState({currentWeather: currentWeather, currentWeatherIsLoading: false, forecastWeatherIsLoading: true});
+          getForecastData(currentWeather.lat,currentWeather.long).then(data => {
+            const forecastWeather = {
+              list: data.daily
+            }
+            this.setState({forecastWeather: forecastWeather, forecastWeatherIsLoading: false});
+          })
+        }
       })
     }
   }
@@ -54,7 +63,7 @@ export default class Main extends Component {
   }
 
   render() {
-    const { currentWeatherIsLoading, forecastWeatherIsLoading, currentWeather, forecastWeather, query } = this.state;
+    const { currentWeatherIsLoading, forecastWeatherIsLoading, currentWeather, forecastWeather, query, error } = this.state;
     return (
       <main className="container">
         <header className="header">
@@ -62,18 +71,27 @@ export default class Main extends Component {
           <input id="search" type="text" value={query} onChange={this.handleChange} onKeyPress={this.handleSearch}/>
         </header>
         {
+          error && <p>{error.message}</p> 
+        }
+        {
           currentWeatherIsLoading ? <p>Loading...</p> : 
           currentWeather.length !== 0 && 
-          <div className="current-weather">
+          <section className="current-weather">
+            <header className="section-header">
+              <h2 className="section-title">Today</h2>
+            </header>
             <CurrentWeather data={currentWeather} />
-          </div>
+          </section>
         }
         {
           forecastWeatherIsLoading ? <p>Loading...</p> : 
           forecastWeather.length !== 0 && 
-          <div className="forecast-weather">
+          <section className="forecast-weather">
+            <header className="section-header">
+              <h2 className="section-title">5 days forecast</h2>
+            </header>
             <ForecastWeather data={forecastWeather}/>
-          </div>
+          </section>
         }
       </main>
     )
