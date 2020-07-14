@@ -1,7 +1,7 @@
 .card {
   background: #fff;
   border-radius: 20px;
-  padding: 24px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -27,5 +27,13 @@
         font-size: 28px;
       }
     }
+  }
+}
+
+.forecast-daily-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 12px;
+  .temp {
   }
 }

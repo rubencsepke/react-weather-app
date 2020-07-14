@@ -3,15 +3,19 @@ import React, { Component } from 'react'
 import '../sass/style.scss'
 
 import { getCurrentData } from '../api/fetchCurrentData.js';
+import { getForecastData } from '../api/fetchForecastData.js';
 import CurrentWeather from './CurrentWeather';
+import ForecastWeather from './ForecastWeather';
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      currentWeatherIsLoading: false,
+      forecastWeatherIsLoading: false,
       query: '',
-      currentWeather: []
+      currentWeather: [],
+      forecastWeather: []
     }
     this.handleSearch = this.handleSearch.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -19,7 +23,7 @@ export default class Main extends Component {
 
   handleSearch = (e) => {
     if(e.key === 'Enter') {
-      this.setState({isLoading: true});
+      this.setState({currentWeatherIsLoading: true});
       getCurrentData(this.state.query).then(data => {
         const currentWeather = {
           city: data.name,
@@ -33,7 +37,13 @@ export default class Main extends Component {
           weather: data.weather[0].main,
           icon: data.weather[0].icon
         }
-        this.setState({currentWeather: currentWeather, isLoading: false});
+        this.setState({currentWeather: currentWeather, currentWeatherIsLoading: false});
+        getForecastData(currentWeather.lat,currentWeather.long).then(data => {
+          const forecastWeather = {
+            list: data.daily
+          }
+          this.setState({forecastWeather: forecastWeather, forecastWeatherIsLoading: false});
+        })
       })
     }
   }
@@ -44,7 +54,7 @@ export default class Main extends Component {
   }
 
   render() {
-    const { isLoading, currentWeather, query } = this.state;
+    const { currentWeatherIsLoading, forecastWeatherIsLoading, currentWeather, forecastWeather, query } = this.state;
     return (
       <main className="container">
         <header className="header">
@@ -52,11 +62,18 @@ export default class Main extends Component {
           <input id="search" type="text" value={query} onChange={this.handleChange} onKeyPress={this.handleSearch}/>
         </header>
         {
-          isLoading ? <p>Loading...</p> : 
-          currentWeather.length !== 0 &&
+          currentWeatherIsLoading ? <p>Loading...</p> : 
+          currentWeather.length !== 0 && 
           <div className="current-weather">
             <CurrentWeather data={currentWeather} />
-          </div> 
+          </div>
+        }
+        {
+          forecastWeatherIsLoading ? <p>Loading...</p> : 
+          forecastWeather.length !== 0 && 
+          <div className="forecast-weather">
+            <ForecastWeather data={forecastWeather}/>
+          </div>
         }
       </main>
     )
