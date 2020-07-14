@@ -4,7 +4,7 @@ import '../sass/cards.scss';
 
 const CurrentWeather = (props) => {
   return (
-    <>
+    <div className="current-weather-info">
       <div className="card current-weather-card">
         <div className="city-name">{props.data.city}</div>
         <div className="weather-icon"><img src={`http://openweathermap.org/img/wn/${props.data.icon}@2x.png`} alt={props.data.weather}/></div>
@@ -27,7 +27,7 @@ const CurrentWeather = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
