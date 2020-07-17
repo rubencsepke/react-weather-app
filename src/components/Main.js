@@ -30,7 +30,7 @@ export default class Main extends Component {
           const error = {
             message: 'City not found: '+this.state.query
           }
-          this.setState({error: error, currentWeatherIsLoading: false});
+          this.setState({error: error, query: '', currentWeatherIsLoading: false});
         }
         if(data.cod === 200) {
           const currentWeather = {
@@ -45,7 +45,7 @@ export default class Main extends Component {
             weather: data.weather[0].main,
             icon: data.weather[0].icon
           }
-          this.setState({currentWeather: currentWeather, currentWeatherIsLoading: false, forecastWeatherIsLoading: true});
+          this.setState({query: '', currentWeather: currentWeather, currentWeatherIsLoading: false, forecastWeatherIsLoading: true});
           getForecastData(currentWeather.lat,currentWeather.long).then(data => {
             const forecastWeather = {
               list: data.daily
@@ -59,7 +59,7 @@ export default class Main extends Component {
 
   handleChange = (e) => {
     e.preventDefault();
-    this.setState({query: e.target.value})
+    this.setState({query: e.target.value});
   }
 
   render() {
