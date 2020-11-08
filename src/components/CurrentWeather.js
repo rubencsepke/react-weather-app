@@ -2,6 +2,9 @@ import React from 'react'
 
 import '../sass/cards.scss';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTint, faCompressAlt, faWind } from '@fortawesome/free-solid-svg-icons';
+
 const CurrentWeather = (props) => {
   return (
     <div className="current-weather-info">
@@ -14,15 +17,15 @@ const CurrentWeather = (props) => {
       <div className="card current-info-card">
         <div className="info-row">
           <div className="info">
-            <span className="info-title">Humidity</span>
+            <span className="info-title"><FontAwesomeIcon icon={faTint} /> Humidity</span>
             <b className="info-value">{props.data.humidity} %</b>
           </div>
           <div className="info">
-            <span className="info-title">Pressure</span>
+            <span className="info-title"><FontAwesomeIcon icon={faCompressAlt} /> Pressure</span>
             <b className="info-value">{props.data.pressure} hpa</b>
           </div>
           <div className="info">
-            <span className="info-title">Wind</span>
+            <span className="info-title"><FontAwesomeIcon icon={faWind} /> Wind</span>
             <b className="info-value">{props.data.windSpeed} m/s</b>
           </div>
         </div>

@@ -34,6 +34,9 @@
         .info-title {
           display: block;
           color: #525252;
+          .fa-compress-alt {
+            transform: rotate(-45deg);
+          }
         }
         .info-value {
           font-size: 28px;

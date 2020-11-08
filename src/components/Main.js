@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
-import '../sass/style.scss'
+import '../sass/style.scss';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { getCurrentData } from '../api/fetchCurrentData.js';
 import { getForecastData } from '../api/fetchForecastData.js';
@@ -68,7 +71,10 @@ export default class Main extends Component {
       <main className="container">
         <header className="header">
           <h1>Weather Forecast</h1>
-          <input id="search" type="text" value={query} onChange={this.handleChange} onKeyPress={this.handleSearch}/>
+            <div className="search-input">
+              <FontAwesomeIcon icon={faSearch} />
+              <input id="search" type="text" placeholder="Search by city" value={query} onChange={this.handleChange} onKeyPress={this.handleSearch}/>
+            </div>
         </header>
         {
           error && <p>{error.message}</p> 
